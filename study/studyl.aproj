@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="gb2312"?>
+<project ver="0.60" name="快手学习" libEmbed="true" icon="D:\ICO\patapon\chinaz11.ico" CompanyName="潜水会" FileDescription="闲得那啥" LegalCopyright="Copyright (C) weiqi 2012" ProductName="实验用品" InternalName="实验用品" FileVersion="0.0.1.001" ProductVersion="0.0.1.001" publishDir="/Publish/">
+	<file name="string.aau" path="string.aau" comment="study.aau"/>
+	<file name="testhook.aau" path="testhook.aau" comment="testhook.aau"/>
+	<file name="autoSaolei.aau" path="autoSaolei.aau" comment="autoSaolei.aau"/>
+	<file name="crackUrl.aau" path="crackUrl.aau" comment="crackUrl.aau"/>
+	<file name="main.aau" path="main.aau"/>
+	<folder name="资源文件" path="res" embed="true">
+		<file name="zuma.swf" path="res\zuma.swf" comment="res\zuma.swf"/>
+	</folder>
+</project>

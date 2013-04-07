@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="gb2312"?>
+<project ver="0.60" name="定时执行功能" libEmbed="true" icon="D:\ICO\闹钟\1512.ico" CompanyName="227866@sf" FileDescription="" LegalCopyright="Copyright (C) 作者227866 2011" ProductName="定时执行功能" InternalName="定时执行功能" FileVersion="0.0.1.001" ProductVersion="0.0.1.001" publishDir="/Publish/">
+	<file name="main.aau" path="main.aau"/>
+	<folder name="资源文件" path="res" embed="true"/>
+</project>
