@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="gb2312"?>
+<project ver="0.60" name="超级门" libEmbed="true" icon="D:\ICO\sf.ico" CompanyName="SF-Express" FileDescription="不要乱来，后果自负" LegalCopyright="Copyright (C) 十克 2013" ProductName="超级门" InternalName="superman" FileVersion="0.0.1.001" ProductVersion="0.0.1.001" publishDir="/Publish/">
+	<file name="main.aau" path="main.aau"/>
+	<folder name="资源文件" path="res" embed="true"/>
+</project>

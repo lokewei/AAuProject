@@ -1,0 +1,587 @@
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="ext" uri="/ext-tags"%>
+<%@ taglib prefix="app" uri="/app-tags"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<ext:ui>
+	<ext:viewport layout="border">
+		<ext:items>
+		   <ext:panel  region="north"  height="27" border="0">
+		    <ext:tbar>
+				<app:isPermission code="/department/savedis.action"><ext:button tooltip="${app:i18n('add_tip')}" text="${app:i18n('add')}" handler="addDis"	var="btnAdd"></ext:button></app:isPermission>
+				<app:isPermission code="/department/updateDis.action"><ext:button tooltip="${app:i18n('update_tip')}" text="${app:i18n('update')}" handler="updateDis" var="btnUpdate"></ext:button></app:isPermission>
+				<app:isPermission code="/department/updateDis.action"><ext:button tooltip="${app:i18n('save_tip')}" text="${app:i18n('save')}" handler="saveDis" var="btnSave"></ext:button></app:isPermission>
+				<app:isPermission code="/department/deldis.action"><ext:button tooltip="${app:i18n('del_tip')}" text="${app:i18n('del')}" handler="delDis"  var="btndel"></ext:button></app:isPermission>
+				<app:isPermission code="/department/outDistrict.action"><ext:button tooltip="${app:i18n('out_tip')}" text="${app:i18n('out')}" handler="outDis" var="btnOut"></ext:button></app:isPermission>
+			</ext:tbar>
+		   </ext:panel>
+			<ext:panel region="west" layout="border" width="200">
+				<ext:items>
+						<ext:treePanel region="center" title="${app:i18n('districtmanage')}"  autoScroll="true"  var="distree">
+								<ext:treeLoader url="searchdistrict.action" var="moduleLoader" textField="distName" idField="id"  handler="chooseNode"></ext:treeLoader>
+									 <ext:asyncTreeNode text="${app:i18n('district')}" var="root" id="0">
+								</ext:asyncTreeNode>
+						</ext:treePanel>
+				</ext:items>
+			</ext:panel>
+
+
+			<ext:panel region="center" layout="border">
+				<ext:items>
+					<ext:formPanel region="north" border="false" frame="true" var="districtForm" height="120"  >
+						<ext:submitAction name="deldisAction" url="deldis.action" success="delSucess"></ext:submitAction>
+						<ext:submitAction name="updateDisAction" url="updateDis.action" success="updateSucess"></ext:submitAction>
+						<ext:submitAction name="schdistrict" url="schdistrict.action" success="searchsuccess"></ext:submitAction>
+						<ext:items>
+							   <ext:panel layout="column">
+								     <ext:items>
+									      <ext:panel layout="form" width="300">
+									           <ext:items>
+											       <ext:textField fieldLabel="<span qtip='${app:i18n('distcode_tip')}'>${app:i18n('distcode')}</span><font color=red>*</font>"  name="district.distCode" maxLength="100" var="distcode" readOnly="true" disabled="true">
+										           </ext:textField>
+									           </ext:items>
+									      </ext:panel>
+			                              <ext:panel layout="form" width="300">
+											  <ext:items>
+											      <ext:hidden name="id" var="id"></ext:hidden>
+											       <ext:hidden   var="flg" name="flg" ></ext:hidden>
+											      <ext:hidden name="comupdate" var="comupdate" ></ext:hidden>
+												   <ext:textField fieldLabel="<span qtip='${app:i18n('distname_tip')}'>${app:i18n('distname')}<font color=red>*</font></span>"  name="district.distName" maxLength="100" var="distname" disabled="true">
+												    </ext:textField>
+											   </ext:items>
+									      </ext:panel>
+							         </ext:items>
+							   </ext:panel>
+							   <ext:panel layout="column">
+								     <ext:items>
+									   <ext:panel layout="form" width="300">
+											  <ext:items>
+								                   <ext:comboBox name="district.typeCode" var="typecode" root="typeList" hiddenName="district.typeCode"
+														  width="120" fieldLabel="<span qtip='${app:i18n('districttypecode_tip')}'>${app:i18n('districttypecode')}<font color=red>*</font></span>" lazyInit="false" url="searchdistricttype.action" editable="false"
+														  valueField="typeCode" displayField="typeName" triggerAction="all" forceSelection="true"  mode="remote" disabled="true" >
+										            </ext:comboBox>
+											   </ext:items>
+									  </ext:panel>
+									   <ext:panel layout="form" width="300">
+											  <ext:items>
+												   <ext:textField fieldLabel="<span qtip='${app:i18n('parentdistcode_tip')}'>${app:i18n('parentdistcode')}</span>"  name="district.parentDistCode" maxLength="30" var="parentdistcode" readOnly="true" disabled="true">
+												    </ext:textField>
+											   </ext:items>
+									  </ext:panel>
+							        </ext:items>
+							  </ext:panel>
+							  <ext:panel layout="column">
+							     <ext:items>
+									    <ext:panel layout="form" width="300">
+								           <ext:items>
+										       <ext:comboBox name="district.currencyCode" var="currencyCode" root="currencyList" hiddenName="district.currencyCode"
+													width="120" fieldLabel="<span qtip='${app:i18n('department.currencyCode_tip')}'>${app:i18n('department.currencyCode')}<font color=red>*</font></span>" lazyInit="false" url="../basedata/searchcurrency.action" editable="false"
+													valueField="currencycode" displayField="currencyname" triggerAction="all" mode="remote"   disabled="true">
+										       </ext:comboBox>
+								           </ext:items>
+							            </ext:panel>
+							            <ext:panel layout="form" width="300">
+								           <ext:items>
+								                <ext:comboBox name="district.validFlg"
+													var="validFlg"
+													hiddenName="district.validFlg"
+													fieldLabel="<span qtip='${app:i18n('deleteFlg_tip')}'>${app:i18n('deleteFlg')}<font color=red>*</font></span>" lazyInit="false"
+													data="['1','${app:i18n('validity')}'],['0','${app:i18n('noeffect')}']" editable="true"  valueField="number" displayField="name"
+													triggerAction="all"
+													mode="local" width="120" disabled="true">
+												</ext:comboBox>
+							                </ext:items>
+							         </ext:panel>
+						          </ext:items>
+						         </ext:panel>
+						         <ext:panel layout="column">
+						         	<ext:items>
+						         		<ext:panel layout="form" width="400">
+						         			<ext:items>
+						         				<ext:textField	fieldLabel="${app:i18n('citycode')} <font color=red>*</font>"  name="district.cityCode" maxLength="100" var="citycode"  disabled="true">
+						         				</ext:textField>
+						         			</ext:items>
+						         		</ext:panel>
+						         	</ext:items>
+						         </ext:panel>
+						</ext:items>
+					</ext:formPanel>
+
+						    <ext:panel   region="center"  layout="border">
+							    <ext:items>
+									<ext:panel region="center" layout="border">
+									   <ext:items>
+									       <ext:gridPanel var="disListGrid" region="center" frame="false" border="false">
+									       	    <ext:store url="disList.action"  var="gridStore">
+													<ext:jsonReader  root="districtList" totalProperty="totalCount">
+														<ext:fields type="com.sf.module.department.domain.District" />
+													</ext:jsonReader>
+												</ext:store>
+												<ext:pagingToolbar store="gridStore" pageSize="20" />
+												<ext:columnModel>
+													<ext:propertyColumnModel dataIndex="distCode" header="${app:i18n('distcode')}"  width="70">
+													</ext:propertyColumnModel>
+													<ext:propertyColumnModel dataIndex="distName" header="${app:i18n('distname')}" width="70">
+													</ext:propertyColumnModel>
+													<ext:propertyColumnModel dataIndex="countryCode" header="${app:i18n('countrycode')}" align="right">
+													</ext:propertyColumnModel>
+													<ext:propertyColumnModel dataIndex="provinceCode" header="${app:i18n('provincecode')}" align="right">
+													</ext:propertyColumnModel>
+													<ext:propertyColumnModel dataIndex="cityCode" header="${app:i18n('citycode')}" align="right">
+													</ext:propertyColumnModel>
+													<ext:propertyColumnModel dataIndex="countyCode" header="${app:i18n('countycode')}" align="right" width="70">
+													</ext:propertyColumnModel>
+													<ext:propertyColumnModel dataIndex="typeCode" header="${app:i18n('districttypecode')}" align="right" width="70" renderer="displayTypeCode">
+													</ext:propertyColumnModel>
+													<ext:propertyColumnModel dataIndex="validFlg" header="${app:i18n('deleteFlg')}"  width="70" renderer="displayValidFlg">
+													</ext:propertyColumnModel>
+													<ext:propertyColumnModel dataIndex="id" header="id" hidden="true">
+													</ext:propertyColumnModel>
+													<ext:propertyColumnModel dataIndex="currencyCode" header="currencyCode" hidden="true">
+													</ext:propertyColumnModel>
+													<ext:propertyColumnModel dataIndex="parentDistCode" header="parentDistCode" hidden="true">
+													</ext:propertyColumnModel>
+												</ext:columnModel>
+									       </ext:gridPanel>
+									   </ext:items>
+									</ext:panel>
+							    </ext:items>
+							</ext:panel>
+
+				</ext:items>
+			</ext:panel>
+		</ext:items>
+	</ext:viewport>
+
+    <ext:window var="addWindow" closeAction="hide" width="400" height="240"  layout="border" modal="true" frame="true" title="${app:i18n('maintaindistrict')}">
+		<ext:tbar>
+			<ext:button text="${app:i18n('save')}" tooltip="${app:i18n('save_tip')}" handler="savedis" var="saveAddBut"></ext:button>
+			<ext:button text="${app:i18n('reSet')}"  tooltip="${app:i18n('reSet_tip')}" handler="reSet"></ext:button>
+		</ext:tbar>
+		<ext:items>
+			<ext:formPanel region="center" border="false" frame="false" var="districtForm1" frame="true">
+				<ext:submitAction name="savedisAction" url="savedis.action" success="showResult"></ext:submitAction>
+			    <ext:submitAction name="compdiscode" url="compdiscode.action" success="compdiscodesuc"></ext:submitAction>
+				<ext:items>
+				   <ext:hidden var="id1" name="id"></ext:hidden>
+				   <ext:hidden name="comupdate" var="comupdate1" ></ext:hidden>
+		               <ext:textField fieldLabel="<span qtip='${app:i18n('distcode_tip')}'>${app:i18n('distcode')}<font color=red>*</font></span>"  name="district.distCode" maxLength="100" var="distcode1">
+		               </ext:textField>
+				       <ext:textField fieldLabel="<span qtip='${app:i18n('distname_tip')}'>${app:i18n('distname')}<font color=red>*</font></span>"  name="district.distName" maxLength="100" var="distname1" >
+					   </ext:textField>
+					   <ext:comboBox name="district.typeCode" var="typecode1" root="typeList" hiddenName="district.typeCode"
+						  width="120" fieldLabel="<span qtip='${app:i18n('districttypecode_tip')}'>${app:i18n('districttypecode')}<font color=red>*</font></span>" lazyInit="false" url="searchdistricttype.action" editable="false"
+						  valueField="typeCode" displayField="typeName" triggerAction="all" forceSelection="true"  mode="remote" >
+			            </ext:comboBox>
+			           <ext:textField fieldLabel="<span qtip='${app:i18n('parentdistcode_tip')}'>${app:i18n('parentdistcode')}</span>"  name="district.parentDistCode" maxLength="100" var="parentdistcode1"  readOnly="true">
+					   </ext:textField>
+					   <ext:comboBox name="district.currencyCode" var="currencyCode1" root="currencyList" hiddenName="district.currencyCode"
+							width="120" fieldLabel="<span qtip='${app:i18n('department.currencyCode_tip')}'>${app:i18n('department.currencyCode')}<font color=red>*</font></span>" lazyInit="false" url="../basedata/searchcurrency.action" editable="false"
+							valueField="currencycode" displayField="currencyname" triggerAction="all" mode="remote">
+						</ext:comboBox>
+						<ext:textField fieldLabel="${app:i18n('citycode')}<font color=red>*</font>"  name="district.cityCode" maxLength="100" var="citycode1">
+		               </ext:textField>
+				</ext:items>
+			</ext:formPanel>
+		</ext:items>
+	</ext:window>
+
+<ext:script>
+     var comdistcode;
+     var comcitycode;
+     var comdistname;
+     var comcurrencyCode;
+     var comtypecode;
+     var comparentdistcode;
+     var comvalidFlg;
+
+   function  displayValidFlg(value){
+      if(value != null){
+        if(value){
+           return "${app:i18n('validity')}";
+        }else{
+           return "${app:i18n('noeffect')}";
+        }
+      }
+   }
+
+    disListGrid.addListener("cellclick",ondist );
+    function ondist(disListGrid) {
+            var  arrCust = disListGrid.getSelectionModel().getSelections();
+            if(arrCust.length==1){
+            id.setValue(arrCust[0].get("id"));
+			distcode.setValue(arrCust[0].get("distCode"));
+			comdistcode=arrCust[0].get("distCode");
+
+			citycode.setValue(arrCust[0].get("cityCode"));//陈静　2009巿暿敿
+			comcitycode=arrCust[0].get("cityCode");
+
+			distname.setValue(arrCust[0].get("distName"));
+			comdistname=arrCust[0].get("distName");
+
+			currencyCode.setValue(arrCust[0].get("currencyCode"));
+		    comcurrencyCode=arrCust[0].get("currencyCode");
+
+		    typecode.setValue(arrCust[0].get("typeCode"));
+		    comtypecode=arrCust[0].get("typeCode");
+
+		    parentdistcode.setValue(arrCust[0].get("parentDistCode"));
+		    comparentdistcode=arrCust[0].get("parentDistCode");
+
+		    validFlg.setValue(arrCust[0].get("validFlg"));
+		    comvalidFlg=arrCust[0].get("validFlg");
+
+	         flg.setValue(1);    //标志仿
+	         }
+	        return;
+        }
+
+
+
+   function updateDis(){
+       // distcode.enable();
+        distname.enable();
+        typecode.enable();
+        parentdistcode.enable();
+        currencyCode.enable();
+        citycode.enable();
+        validFlg.enable();
+     }
+
+
+
+     currencyCode.initialConfig.store.reload();
+     currencyCode1.initialConfig.store.reload();
+     typecode.initialConfig.store.reload();
+     typecode1.initialConfig.store.reload();
+     function  displayTypeCode(value){
+	      if (value == null){
+			  return "";
+			}
+	      var s = typecode1.initialConfig.store.getRange();
+	      for(var i = 0; i < s.length; i++) {
+	   		var record = s[i];
+	   		if (record.get('typeCode') == value) {
+	   		    return 	record.get('typeName');
+	   			break;
+	   		}
+	     }
+     }
+
+
+    function outDis(){
+          var nwin = 'width=1,height=1,left='+screen.AvailWidth+',top='+screen.AvailHeight;
+		  window.open('outDistrict.action','outDistrict', nwin);
+
+    }
+
+    function addDis(){
+      var disId =id.getValue();
+       if(disId == null || disId ==""){
+          Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('choosedistrict')}');
+		  return false;
+        }
+        if(disId == "rootid" ){
+           id.setValue("");
+        }
+      addWindow.show();
+      reSet();
+      parentdistcode1.setValue(distcode.getValue());
+    }
+
+
+
+
+
+    function searchsuccess(form, action){
+     if (action.result.msg==null) {
+       //显示部门信息
+        distcode.setValue(action.result.district.distCode);
+        distname.setValue(action.result.district.distName);
+
+
+
+        currencyCode.setValue(action.result.district.currencyCode);
+        typecode.setValue(action.result.district.typeCode);
+        parentdistcode.setValue(action.result.district.parentDistCode);
+        validFlg.setValue(action.result.district.validFlg);
+
+		citycode.setValue(action.result.district.cityCode);//陈静 2009巿暿敿
+		comcitycode=action.result.district.citycode;
+
+        comdistcode=action.result.district.distCode;
+        comdistname=action.result.district.distName;
+
+
+
+        comcurrencyCode=action.result.district.currencyCode;
+        comtypecode=action.result.district.typeCode;
+        comparentdistcode=action.result.district.parentDistCode;
+		comvalidFlg=action.result.district.validFlg;
+        flg.setValue("");
+			} else {
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('operatingfalse')}');
+			}
+    }
+
+
+
+     function disReset(){
+       id.setValue("");
+       distcode.setValue("");
+       citycode.setValue("");
+       distname.setValue("");
+       typecode.setValue("");
+       parentdistcode.setValue("");
+       currencyCode.setValue("");
+       validFlg.setValue("");
+
+   	   }
+
+    root.on('click' ,rootclick);
+    function rootclick(){
+
+       reSet();
+       parentdistcode1.setValue("");
+       //addWindow.show();
+       id.setValue("rootid");
+    }
+
+
+    function  reSet(){
+           id1.setValue("");
+	       distcode1.setValue("");
+	       citycode1.setValue("");
+	       distname1.setValue("");
+	       typecode1.setValue("");
+	       currencyCode1.setValue("");
+           parentdistcode1.setValue("");
+    	}
+
+    function validRequird() {
+			if (distcode.getValue() == '') {
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('mustinputdisCode')}');
+				return false;
+			}
+
+			if(citycode.getValue() ==''){
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('cityisempty')}');
+				return false;
+			}
+
+			if (distname.getValue() == '') {
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('mustinputdisName')}');
+				return false;
+			}
+			if (typecode.getValue() == '') {
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('mustinputdistypeCode')}');
+				return false;
+			}
+			if (currencyCode.getValue() == ''|| currencyCode.getValue() == null) {
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('mustinputdeptcurrency')}');
+				return false;
+			}
+			return true;
+		}
+
+     function validRequird1() {
+         var type1 =typecode1.getValue();
+			if (distcode1.getValue() == "") {
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('mustinputdisCode')}');
+				return false;
+			}
+
+			if(citycode1.getValue() ==''){
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('cityisempty')}');
+				return false;
+			}
+
+
+			if (distname1.getValue() =="") {
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('mustinputdisName')}');
+				return false;
+			}
+			if (typecode1.getValue() == "") {
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('mustinputdistypeCode')}');
+				return false;
+			}
+            if (currencyCode1.getValue() == ''|| currencyCode1.getValue() == null) {
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('mustinputdeptcurrency')}');
+				return false;
+			}
+			return true;
+		}
+
+     function updateSucess(form, action){
+		    if (action.result.msg==null) {
+                distree.root.reload();
+                distcode.disable();
+                citycode.disable();
+		        distname.disable();
+		        typecode.disable();
+		        parentdistcode.disable();
+		        currencyCode.disable();
+		        validFlg.disable();
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('updatedistrictsuccess')}');
+			}else{
+                Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('updatedistrictfalse')}');
+			}
+		 }
+
+     function saveDis(){
+          if(distname.disabled){
+               Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('pleaseclickupdate')}');
+		         return;
+           }
+           if(id.getValue()==null || id.getValue()==""){
+		         Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('choosedistrict')}');
+		         return;
+		      }
+		    if (validRequird() == false) {
+				  return ;
+			 }
+
+		if(comvalidFlg){
+	       comvalidFlg=1;
+	     }else{
+	       comvalidFlg=0;
+	     }
+		if(comparentdistcode==null)
+		  comparentdistcode="";
+		if(comdistname !=distname.getValue() ||
+		   comcurrencyCode !=currencyCode.getValue() ||
+		   comtypecode !=typecode.getValue() ||
+		   comparentdistcode != parentdistcode.getValue()||
+		   comvalidFlg !=validFlg.getValue()||
+		   comcitycode != citycode.getValue()
+		   ){
+        var compAll="${app:i18n('modifying')}["+comdistcode+"/"+comdistname+"/"+comcitycode+"],";
+        if(comdistname !=distname.getValue()){
+          compAll+="["+"${app:i18n('distname')}"+"]"+"${app:i18n('by')}"+"["+comdistname+"]"+"${app:i18n('instead')}"+"["+distname.getValue()+"]"+";";
+        }
+
+        if(comcitycode !=citycode.getValue()){
+          compAll+="["+"${app:i18n('citycode')}"+"]"+"${app:i18n('by')}"+"["+comcitycode+"]"+"${app:i18n('instead')}"+"["+citycode.getValue()+"]"+";";
+        }
+
+        if(comcurrencyCode !=currencyCode.getValue()){
+          compAll+="["+"${app:i18n('department.currencyCode')}"+"]"+"${app:i18n('by')}"+"["+comcurrencyCode+"]"+"${app:i18n('instead')}"+"["+currencyCode.getValue()+"]"+";";
+        }
+        if(comtypecode !=typecode.getValue()){
+          compAll+="["+"${app:i18n('districttypecode')}"+"]"+"${app:i18n('by')}"+"["+comtypecode+"]"+"${app:i18n('instead')}"+"["+typecode.getValue()+"]"+";";
+        }
+        if(comparentdistcode != parentdistcode.getValue()){
+          compAll+="["+"${app:i18n('parentdistcode')}"+"]"+"${app:i18n('by')}"+"["+comparentdistcode+"]"+"${app:i18n('instead')}"+"["+parentdistcode.getValue()+"]"+";";
+        }
+        if(comvalidFlg != validFlg.getValue()){
+          compAll+="["+"${app:i18n('deleteFlg')}"+"]"+"${app:i18n('by')}"+"["+comvalidFlg+"]"+"${app:i18n('instead')}"+"["+validFlg.getValue()+"]"+";";
+        }
+        if(validFlg.getValue()== 1){
+		   validFlg.setValue(true);
+         }else{
+           validFlg.setValue(false);
+         }
+
+         comupdate.setValue(compAll);
+         districtForm.updateDisAction();
+       }else{
+            Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('notchange')}');
+			return false;
+       }
+
+    }
+
+
+
+
+
+	function delDis(){
+		     if(id.getValue()!=null && id.getValue()!=""){
+		        var delflg=flg.getValue();
+		         if(delflg != 1){
+			         var selectds = gridStore.getRange();
+	                 if(selectds == null || selectds == ""){
+	                     Ext.MessageBox.confirm('${app:i18n('ts')}','${app:i18n('suredeldistrict')}',deldis);
+
+	                 }else{
+	                   Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('existsubdistrict')}');
+	                    return;
+	                 }
+	              }else{
+	                  Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('clicklefttree')}');
+	                  return;
+	             }
+		      }else{
+		         Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('choosedistrict')}');
+		         return;
+		         }
+		   }
+
+
+   function deldis(result){
+			    if(result == 'yes') {
+			      var comdel="${app:i18n('del')}";
+			      comdel+="["+comdistcode+"/"+comdistname+"/"+citycode.getValue()+"];"
+			      comupdate.setValue(comdel);
+			      districtForm.deldisAction();
+			    }
+		   }
+
+   function delSucess(){
+           disReset();
+           distree.root.reload();
+		   Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('deldistrictTrue')}');
+		    disListGrid.getStore().load();
+		 }
+
+
+
+   function savedis(){
+           if (validRequird1() == false) {
+				  return ;
+			 }
+		 var comAdd;
+		 comAdd= "${app:i18n('add')}["+distcode1.getValue()+"/"+distname1.getValue()+"/"+citycode1.getValue()+"]";
+		 comupdate1.setValue(comAdd);
+            districtForm1.compdiscode();
+
+		}
+
+
+
+
+
+     function compdiscodesuc(form, action){
+		    if (action.result.compdistcodeflg) {
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('distcodeissame')}');
+			}else{
+               districtForm1.savedisAction();
+			}
+		 }
+
+    function showResult(form, action){
+
+		   if (action.result.msg==null) {
+			    addWindow.hide();
+			    distree.root.reload();
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('savedistrictsuccess')}');
+			} else {
+				Ext.MessageBox.alert('${app:i18n('ts')}','${app:i18n('savedistrictfalse')}');
+			}
+		 }
+
+
+
+
+	function chooseNode(node){
+        id.setValue(node.id);
+        schdis();
+        disListGrid.getStore().removeAll();
+        disListGrid.getStore().baseParams = districtForm.getForm().getValues();
+        disListGrid.getStore().load();
+	}
+
+	function schdis(){
+	    districtForm.schdistrict();
+	}
+</ext:script>
+</ext:ui>
