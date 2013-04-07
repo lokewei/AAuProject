@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="gb2312"?>
+<project ver="0.60" name="openfireTimer" libEmbed="true" icon="D:\ICO\闹钟\1512.ico" CompanyName="顺丰速运" FileDescription="Openfire服务管理" LegalCopyright="Copyright (C) 227866 2011" ProductName="openfireTimer" InternalName="openfireTimer" FileVersion="0.0.1.001" ProductVersion="0.0.1.001" publishDir="/Publish/">
+	<file name="main.aau" path="main.aau"/>
+	<folder name="资源文件" path="res" embed="true"/>
+</project>

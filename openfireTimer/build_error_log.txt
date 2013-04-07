@@ -1,0 +1,13 @@
+错误发生在文件---------------:
+C:\Documents and Settings\Administrator\My Documents\AAu-Project\openfireTimer\main.aau
+错误发生在代码---------------：
+
+错误信息---------------:
+
+error:
+line:#62
+file:...d Settings\Administrator\My Documents\AAu-Project\openfireTimer\main.aau
+error:
+expected:'='
+near:...'var'
+byte:0x76
