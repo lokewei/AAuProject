@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="gb2312"?>
+<project ver="0.60" name="透明Flash界面" libEmbed="true" icon="..." CompanyName="单位名称" FileDescription="附加说明......" LegalCopyright="Copyright (C) 作者 2011" ProductName="快手工程30" InternalName="快手工程30" FileVersion="0.0.1.001" ProductVersion="0.0.1.001" publishDir="/Publish/">
+	<file name="main.aau" path="main.aau"/>
+	<folder name="资源文件" path="res" embed="true">
+		<file name="movie.swf" path="res\movie.swf" comment="res\movie.swf"/>
+	</folder>
+</project>
