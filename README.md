@@ -6,7 +6,7 @@ AAu快手开发的一些小工具
 
 > **openfireTimer**
 
-*   一个_[OpenFire](http://www.igniterealtime.org/projects/openfire/)_Windows	版的定时启动服务工具
+*   一个 *[OpenFire](http://www.igniterealtime.org/projects/openfire/)* Windows	版的定时启动服务工具
 
 > **cbs_auto**
 
